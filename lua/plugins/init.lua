@@ -1,39 +1,38 @@
-local utils = require('utils')
-
 -- Install packer.nvim if not currently installed
-local install_path = utils.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-if utils.fn.empty(utils.fn.glob(install_path)) > 0 then
-    utils.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
 end
 
-utils.cmd('packadd packer.nvim')
-utils.cmd('autocmd BufWritePost plugins.lua | PackerCompile')
+cmd('packadd packer.nvim')
+cmd('autocmd BufWritePost plugins/init.lua | PackerCompile')
 
 -- Load plugins with packer.nvim
 local packer = require('packer')
+
 return packer.startup(function(use)
 
     -- Let packer.nvim handle itself
     use { 'wbthomason/packer.nvim' }
 
-    -- Color scheme - Gruvbox
-    use { 
-        'gruvbox-community/gruvbox',
+    -- Status line - Airline
+    use {
+        'vim-airline/vim-airline',
         config = function()
-            require('config.colorscheme')
+            require('plugins.airline')
         end
     }
 
-    -- Status line - Airline
-    use { 
-        'vim-airline/vim-airline',
+    -- Color scheme - Gruvbox
+    use {
+        'gruvbox-community/gruvbox',
         config = function()
-            require('config.statusline')
+            require('plugins.gruvbox')
         end
     }
 
     -- Syntax highlighting - Treesitter
-    use { 
+    use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
@@ -49,19 +48,19 @@ return packer.startup(function(use)
 
     -- Neovim language server client configuration - LSPConfig
     -- Automatically install language servers - LSPInstall
-    use { 
+    use {
         'neovim/nvim-lspconfig',
         'kabouzeid/nvim-lspinstall',
-        config = function() 
-            require('config.lsp')
+        config = function()
+            require('plugins.lsp')
         end
     }
 
     -- Autocompletion - Compe
-    use { 
+    use {
         'hrsh7th/nvim-compe',
         config = function()
-            require('config.autocomplete')
+            require('plugins.compe')
         end
     }
 
