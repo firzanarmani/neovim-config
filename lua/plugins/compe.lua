@@ -112,3 +112,6 @@ settings = {
 
 compe.setup(settings)
 setup_maps()
+
+-- Additional useful option setting
+vim.opt.shortmess:append({ c = true })

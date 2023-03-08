@@ -21,11 +21,13 @@ set_go = function(options)
 end
 
 set_wo = function(options, winnr)
-	set_options_scoped(OptionType.WINDOW, winnr, options)
+	winnr = winnr or 0
+	set_options_scoped(OptionType.WINDOW, options, winnr)
 end
 
 set_bo = function(options, bufnr)
-	set_options_scoped(OptionType.BUFFER, bufnr, options)
+	bufnr = bufnr or 0
+	set_options_scoped(OptionType.BUFFER, options, bufnr)
 end
 
 get_o = function(option)

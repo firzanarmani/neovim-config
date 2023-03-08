@@ -25,7 +25,7 @@ end
 -- after the language server attaches to the current buffer
 on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
-    set_bo(bufnr, { omnifunc = 'v:lua.vim.lsp.omnifunc' })
+    set_bo({ omnifunc = 'v:lua.vim.lsp.omnifunc' }, bufnr)
     setup_maps(client, bufnr)
 end
 
@@ -39,9 +39,7 @@ setup_servers = function()
     for _, server in pairs(servers) do
         local config = make_config()
         if server == 'lua' then
-            config.settings = {
-                Lua = lua_settings
-            }
+            config.settings = lua_settings
         end
 
         lsp_config[server].setup(config)
@@ -87,22 +85,24 @@ end
 ]]
 
 lua_settings = {
-    runtime = {
-        -- LuaJIT in the case of Neovim
-        version = 'LuaJIT',
-        path = vim.split(package.path, ';'),
-    },
-    diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-    },
-    workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = {
-            [fn.expand('$VIMRUNTIME/lua')] = true,
-            [fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+    Lua = {
+        runtime = {
+            -- LuaJIT in the case of Neovim
+            version = 'LuaJIT',
+            path = vim.split(package.path, ';'),
         },
-    },
+        diagnostics = {
+            -- Get the language server to recognize the `vim` global
+            globals = {'vim'},
+        },
+        workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = {
+                [fn.expand('$VIMRUNTIME/lua')] = true,
+                [fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+            },
+        },
+    }
 }
 
 
